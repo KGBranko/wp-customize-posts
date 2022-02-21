@@ -286,6 +286,7 @@ class WP_Customize_Post_Setting extends WP_Customize_Setting {
 		global $wpdb;
 		$has_setting_validation = method_exists( 'WP_Customize_Setting', 'validate' );
 
+		$postarr = $post_data;
 		$post_data = array_merge( $this->default, $post_data );
 
 		$update = ( $this->post_id > 0 );
@@ -470,10 +471,10 @@ class WP_Customize_Post_Setting extends WP_Customize_Setting {
 
 		if ( 'attachment' === $this->post_type ) {
 			/** This filter is documented in wp-includes/post.php */
-			$post_data = apply_filters( 'wp_insert_attachment_data', $post_data, $unsanitized_post_data );
+			$post_data = apply_filters( 'wp_insert_attachment_data', $post_data, $postarr, $unsanitized_post_data );
 		} else {
 			/** This filter is documented in wp-includes/post.php */
-			$post_data = apply_filters( 'wp_insert_post_data', $post_data, $unsanitized_post_data );
+			$post_data = apply_filters( 'wp_insert_post_data', $post_data, $postarr, $unsanitized_post_data );
 		}
 		$post_data = wp_unslash( $post_data );
 
